@@ -55,9 +55,10 @@ HTMLActuator.prototype.addTile = function (tile) {
   var positionClass = this.positionClass(position);
 
   // We can't use classlist because it somehow glitches when replacing classes
-  var classes = ["tile", "tile-" + tile.value, positionClass];
+  var classval = tile.value % 5 === 0 ? tile.value / 5 * 2 : tile.value % 3 === 0 ? tile.value / 3 * 2 : tile.value;
+  var classes = ["tile", "tile-" + classval, positionClass];
 
-  if (tile.value > 2048) classes.push("tile-super");
+  if (classval > 2048) classes.push("tile-super");
 
   this.applyClasses(wrapper, classes);
 
@@ -83,6 +84,37 @@ HTMLActuator.prototype.addTile = function (tile) {
     this.applyClasses(wrapper, classes);
   }
 
+  // determine style based on tile value
+  if (tile.value % 5 === 0) {
+    // pow2 ranges from 0 to 10
+    var pow2 = Math.log(tile.value / 5) / Math.log(2);
+    // hue 210 to 270, centered around pure blue 240
+    var hue = 210 + pow2 * 6;
+    // saturation 20-100%
+    var sat = 20.0 + pow2 * 8;
+    inner.style.backgroundColor = "hsl(" + hue + ", " + sat + "%, 50%)";
+    inner.style.color = "white";
+  }
+  else if (tile.value % 3 === 0) {
+    // pow2 ranges from 0 to 10
+    var pow2 = Math.log(tile.value / 3) / Math.log(2);
+    // hue 90 to 150, centered around pure green 120
+    var hue = 90 + pow2 * 6;
+    // saturation 20-100%
+    var sat = 20.0 + pow2 * 8;
+    inner.style.backgroundColor = "hsl(" + hue + ", " + sat + "%, 50%)";
+    inner.style.color = "white";
+  }
+  else if (tile.value % 2 === 0) {
+    // pow2 ranges from 0 to 10
+    var pow2 = Math.log(tile.value / 2) / Math.log(2);
+    // hue -30 to 30, centered around pure red 0
+    var hue = -30 + pow2 * 6;
+    // saturation 20-100%
+    var sat = 20.0 + pow2 * 8;
+    inner.style.backgroundColor = "hsl(" + hue + ", " + sat + "%, 50%)";
+    inner.style.color = "white";
+  }
   // Add the inner part of the tile to the wrapper
   wrapper.appendChild(inner);
 
