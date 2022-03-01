@@ -86,34 +86,40 @@ HTMLActuator.prototype.addTile = function (tile) {
 
   // determine style based on tile value
   if (tile.value % 5 === 0) {
-    // pow2 ranges from 0 to 10
     var pow2 = Math.log(tile.value / 5) / Math.log(2);
-    // hue 210 to 270, centered around pure blue 240
-    var hue = 210 + pow2 * 6;
-    // saturation 20-100%
-    var sat = 20.0 + pow2 * 8;
-    inner.style.backgroundColor = "hsl(" + hue + ", " + sat + "%, 50%)";
-    inner.style.color = "white";
+    var huebase = 240;
+
+    var hue = huebase - 30 + Math.floor(pow2 / 3) * 20;
+    var sat = 25.0 +  Math.floor((pow2+1) / 3) * 25;
+    var light = 80.0 - Math.floor((pow2+2) / 3) * 20;
+
+    inner.style.backgroundColor = "hsl(" + hue + ", " + sat + "%, " + light + "%)";
+    console.log("hsl(" + hue + ", " + sat + "%, " + light + "%)");
+    inner.style.color = light > 50 ? "#202020" : "white";
   }
   else if (tile.value % 3 === 0) {
-    // pow2 ranges from 0 to 10
     var pow2 = Math.log(tile.value / 3) / Math.log(2);
-    // hue 90 to 150, centered around pure green 120
-    var hue = 90 + pow2 * 6;
-    // saturation 20-100%
-    var sat = 20.0 + pow2 * 8;
-    inner.style.backgroundColor = "hsl(" + hue + ", " + sat + "%, 50%)";
-    inner.style.color = "white";
+    var huebase = 120;
+
+    var hue = huebase - 30 + Math.floor(pow2 / 3) * 20;
+    var sat = 25.0 +  Math.floor((pow2+1) / 3) * 25;
+    var light = 80.0 - Math.floor((pow2+2) / 3) * 20;
+
+    inner.style.backgroundColor = "hsl(" + hue + ", " + sat + "%, " + light + "%)";
+    console.log("hsl(" + hue + ", " + sat + "%, " + light + "%)");
+    inner.style.color = light > 50 ? "#202020" : "white";
   }
   else if (tile.value % 2 === 0) {
-    // pow2 ranges from 0 to 10
     var pow2 = Math.log(tile.value / 2) / Math.log(2);
-    // hue -30 to 30, centered around pure red 0
-    var hue = -30 + pow2 * 6;
-    // saturation 20-100%
-    var sat = 20.0 + pow2 * 8;
-    inner.style.backgroundColor = "hsl(" + hue + ", " + sat + "%, 50%)";
-    inner.style.color = "white";
+    var huebase = 0;
+
+    var hue = huebase - 30 + Math.floor(pow2 / 3) * 20;
+    var sat = 25.0 +  Math.floor((pow2+1) / 3) * 25;
+    var light = 80.0 - Math.floor((pow2+2) / 3) * 20;
+
+    inner.style.backgroundColor = "hsl(" + hue + ", " + sat + "%, " + light + "%)";
+    console.log("hsl(" + hue + ", " + sat + "%, " + light + "%)");
+    inner.style.color = light > 50 ? "#202020" : "white";
   }
   // Add the inner part of the tile to the wrapper
   wrapper.appendChild(inner);
